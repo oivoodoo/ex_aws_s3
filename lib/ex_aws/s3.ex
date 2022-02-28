@@ -40,7 +40,7 @@ defmodule ExAws.S3 do
 
   @type presigned_url_opts :: [
           {:expires_in, integer}
-          | {:virtual_host, boolean}
+          | {:virtual_host, boolean | binary}
           | {:s3_accelerate, boolean}
           | {:query_params, [{binary, binary}]}
           | {:headers, [{binary, binary}]}
@@ -1222,7 +1222,7 @@ defmodule ExAws.S3 do
   When option param `:s3_accelerate` is `true`, the bucket name will be used as
   the hostname, along with the `s3-accelerate.amazonaws.com` host.
 
-  When option param `:bucket_as_host` is `true`, the bucket name will be used as the full hostname. 
+  When option param `:bucket_as_host` is `true`, the bucket name will be used as the full hostname.
   In this case, bucket must be set to a full hostname, for example `mybucket.example.com`.
   The `bucket_as_host` must be passed along with `virtual_host=true`
 
@@ -1353,6 +1353,8 @@ defmodule ExAws.S3 do
 
       false ->
         "#{config[:scheme]}#{config[:host]}#{port}/#{bucket}#{object}"
+
+      defined_virtual_host -> "#{defined_virtual_host}/#{bucket}/#{object}"
     end
   end
 
