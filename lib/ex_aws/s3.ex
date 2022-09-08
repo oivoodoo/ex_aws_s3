@@ -1354,7 +1354,8 @@ defmodule ExAws.S3 do
       false ->
         "#{config[:scheme]}#{config[:host]}#{port}/#{bucket}#{object}"
 
-      defined_virtual_host -> "#{defined_virtual_host}/#{bucket}/#{object}"
+      defined_virtual_host ->
+        "#{defined_virtual_host}/#{bucket}#{object}"
     end
   end
 
